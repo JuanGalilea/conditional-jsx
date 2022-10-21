@@ -1,0 +1,22 @@
+{
+  "name": "conditional-jsx",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "JuanGalilea",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^17.0.2"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.25.0"
+  }
+}
