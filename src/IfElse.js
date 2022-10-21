@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { OnTrue, OnFalse } from "./Conditionals";
+import { OnTrue, OnFalse } from "./Conditionals.js";
 
 export const IfElse = ({ condition, children }) =>
   children.map((x) =>
@@ -9,4 +9,4 @@ export const IfElse = ({ condition, children }) =>
     })
   );
 
-module.exports = { OnTrue, OnFalse };
+export { OnTrue, OnFalse };

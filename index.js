@@ -1,5 +1,5 @@
-import IfElse from "./src/IfElse";
-import Switch from "./src/Switch";
-import Conditionals from "./src/Conditionals";
+import { IfElse } from "./src/IfElse.js";
+import { Switch, Case } from "./src/Switch.js";
+import { OnTrue, OnFalse, If, When, Unless } from "./src/Conditionals.js";
 
-module.exports = { ...IfElse, ...Switch, ...Conditionals };
+export { IfElse, Switch, Case, OnTrue, OnFalse, If, When, Unless };
