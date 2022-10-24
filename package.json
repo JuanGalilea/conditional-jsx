@@ -1,6 +1,6 @@
 {
   "name": "conditional-jsx",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "React components for conditional statements.",
   "main": "index.js",
   "type": "module",
@@ -19,7 +19,7 @@
   "scripts": {
     "test": "vitest run",
     "coverage": "vitest run --coverage",
-    "start": "NODE_OPTIONS='--experimental-specifier-resolution=node' node index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "react": "^18.2.0"

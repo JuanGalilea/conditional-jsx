@@ -1,4 +1,4 @@
-import { IfElse } from "../IfElse";
+import { IfElse } from "../IfElse/index.js";
 
 /**
  * Supplies its condition prop to all its children, use with Case or Satisfies as children.

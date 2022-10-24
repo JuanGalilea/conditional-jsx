@@ -1,6 +1,6 @@
 import { cloneElement } from "react";
-import { OnTrue } from "../Conditionals/OnTrue";
-import { OnFalse } from "../Conditionals/OnFalse";
+import { OnTrue } from "../Conditionals/OnTrue/index.js";
+import { OnFalse } from "../Conditionals/OnFalse/index.js";
 
 const isObject = x => typeof(x) === "object";
 const isNull = x => x === null;

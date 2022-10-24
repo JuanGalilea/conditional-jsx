@@ -1,5 +1,5 @@
-import { OnTrue } from "./OnTrue";
-import { OnFalse } from "./OnFalse";
+import { OnTrue } from "./OnTrue/index.js";
+import { OnFalse } from "./OnFalse/index.js";
 
 /**
  * Renders when its condition prop is truthy
