@@ -13,6 +13,7 @@
       "ecmaVersion": "latest",
       "sourceType": "module",
       "ecmaFeatures": {
+        "jsx": true,
         "modules": true,
         "experimentalObjectRestSpread": true
       }
@@ -22,5 +23,7 @@
       "document": false,
       "navigator": false,
       "window": false
-    }
+    },
+
+    "plugins": ["react"]
   }
