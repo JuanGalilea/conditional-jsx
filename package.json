@@ -1,26 +1,7 @@
 {
   "name": "conditional-jsx",
-  "version": "0.9.6 ",
+  "version": "1.0.0",
   "description": "React components for conditional statements.",
-  "main": "./index.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "files": ["./src/**/index.js", "./index.js"],
-  "dependencies": {
-    "react": "^18.2.0"
-  },
-  "devDependencies": {
-    "@vitest/coverage-c8": "^0.24.3",
-    "babel-eslint": "^7.0.1",
-    "cheerio": "1.0.0-rc.12",
-    "eslint": "^8.25.0",
-    "react-dom": "^18.2.0",
-    "vitest": "^0.24.3"
-  },
-  "scripts": {
-    "test": "vitest run"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JuanGalilea/conditional-jsx.git"
@@ -28,10 +9,59 @@
   "keywords": [
     "react"
   ],
+  "main": "lib/index",
+  "types": "lib/index",
+  "files": [
+    "lib",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "watch": "vitest watch",
+    "build": "npx tsc -p .",
+    "build-docs": "npx typedoc --out docs src/index.js --disableOutputCheck",
+    "prepublishOnly": "npm run build && npm run build-docs"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write",
+      "eslint --cache --fix"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "mocha": {
+    "extension": [
+      "ts"
+    ],
+    "watch-files": [
+      "src/**/*.ts",
+      "test/**/*.ts"
+    ],
+    "require": "ts-node/register"
+  },
   "author": "JuanGalilea",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/JuanGalilea/conditional-jsx/issues"
+  "devDependencies": {
+    "@types/chai": "^4.2.18",
+    "@types/mocha": "^8.2.2",
+    "chai": "^4.3.4",
+    "cheerio": "^1.0.0-rc.12",
+    "eslint": "^7.25.0",
+    "lint-staged": "^10.5.4",
+    "mocha": "^8.4.0",
+    "prettier": "^2.2.1",
+    "ts-node": "^9.1.1",
+    "typedoc": "^0.20.36",
+    "typedoc-plugin-markdown": "^3.8.1",
+    "typescript": "^4.2.4",
+    "vitest": "^0.24.3",
+    "react-dom": "^18.2.0"
   },
-  "homepage": "https://github.com/JuanGalilea/conditional-jsx#readme"
+  "dependencies": {
+    "react": "^18.2.0"
+  }
 }
