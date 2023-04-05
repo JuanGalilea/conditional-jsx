@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { cloneElement } from 'react';
+
 /**
  * Renders when its IfElse parent condition is falsy
  * - Synonyms: Unless
@@ -7,10 +8,14 @@ import React from 'react';
  * @param {object} props
  * @param {*} props.condition Value to check
  */
-export declare const OnFalse: ({ condition, children, }: {
-    condition?: unknown;
-    children: React.ReactNode;
-}) => JSX.Element | null;
+export const OnFalse = ({
+  condition,
+  children,
+}: {
+  condition?: unknown;
+  children: React.ReactNode;
+}): JSX.Element | null => (condition ? null : <>{children}</>);
+
 /**
  * Renders when its IfElse parent condition is truthy
  * - Synonyms: If, When
@@ -19,10 +24,14 @@ export declare const OnFalse: ({ condition, children, }: {
  * @param {object} props
  * @param {*} props.condition Value to check
  */
-export declare const OnTrue: ({ condition, children, }: {
-    condition?: unknown;
-    children: React.ReactNode;
-}) => JSX.Element | null;
+export const OnTrue = ({
+  condition,
+  children,
+}: {
+  condition?: unknown;
+  children: React.ReactNode;
+}): JSX.Element | null => (condition ? <>{children}</> : null);
+
 /**
  * Renders when its condition prop is truthy
  * - Synonyms: When, OnTrue
@@ -31,10 +40,8 @@ export declare const OnTrue: ({ condition, children, }: {
  * @param {object} props
  * @param {*} props.condition Value to check
  */
-export declare const If: ({ condition, children, }: {
-    condition?: unknown;
-    children: React.ReactNode;
-}) => JSX.Element | null;
+export const If = OnTrue;
+
 /**
  * Renders when its condition prop is truthy
  * - Synonyms: If, OnTrue
@@ -43,10 +50,8 @@ export declare const If: ({ condition, children, }: {
  * @param {object} props
  * @param {*} props.condition Value to check
  */
-export declare const When: ({ condition, children, }: {
-    condition?: unknown;
-    children: React.ReactNode;
-}) => JSX.Element | null;
+export const When = OnTrue;
+
 /**
  * Renders when its condition prop is falsy
  * - Synonyms: OnFalse
@@ -55,10 +60,12 @@ export declare const When: ({ condition, children, }: {
  * @param {object} props
  * @param {*} props.condition Value to check
  */
-export declare const Unless: ({ condition, children, }: {
-    condition?: unknown;
-    children: React.ReactNode;
-}) => JSX.Element | null;
+export const Unless = OnFalse;
+
+const isObject = (x: unknown) => typeof x === 'object';
+const isNull = (x: unknown) => x === null;
+const isArray = (x: unknown) => Array.isArray(x);
+
 /**
  * Supplies its condition prop to all its children, use with OnTrue and OnFalse.
  * - See also: OnTrue, OnFalse
@@ -70,10 +77,37 @@ export declare const Unless: ({ condition, children, }: {
  * @param {object} props
  * @param {*} props.condition Value to check
  */
-export declare const IfElse: ({ condition, children, }: {
-    condition?: unknown;
-    children?: (Exclude<React.ReactNode, React.ReactFragment> | string) | (Exclude<React.ReactNode, React.ReactFragment> | string)[];
-}) => JSX.Element | null;
+export const IfElse = ({
+  condition,
+  children = null,
+}: {
+  condition?: unknown;
+  children?:
+    | (Exclude<React.ReactNode, React.ReactFragment> | string)
+    | (Exclude<React.ReactNode, React.ReactFragment> | string)[];
+}): JSX.Element | null =>
+  !(typeof children === 'object') ||
+  children === null ||
+  typeof children === 'string' ? (
+    children ? (
+      <>{children}</>
+    ) : null
+  ) : (
+    <>
+      {[children].flat().map((x) =>
+        !(typeof x === 'object') ||
+        isArray(x) ||
+        typeof x === 'string' ||
+        x === null
+          ? x
+          : cloneElement(x, {
+              condition,
+              key: x?.key || x?.props?.value,
+            })
+      )}
+    </>
+  );
+
 /**
  * Supplies its condition prop to all its children, use with Case or Satisfies as children.
  * - See also: Case, Satisfies
@@ -86,10 +120,8 @@ export declare const IfElse: ({ condition, children, }: {
  * @param {object} props
  * @param {*} props.condition Value to provide to children
  */
-export declare const Switch: ({ condition, children, }: {
-    condition?: unknown;
-    children?: (Exclude<React.ReactNode, React.ReactFragment> | string) | (Exclude<React.ReactNode, React.ReactFragment> | string)[];
-}) => JSX.Element | null;
+export const Switch = IfElse;
+
 /**
  * Renders when its the condition supplied by its parent matches its value prop.
  * - See also: Satisfies, Switch
@@ -98,15 +130,20 @@ export declare const Switch: ({ condition, children, }: {
  * @param {*} props.value Value to check condition against
  * @param {*} props.condition Value to be checked
  */
-export declare const Case: ({ value, condition, children, }: {
-    value: unknown;
-    condition?: unknown;
-    children?: React.ReactNode;
-}) => JSX.Element | null;
-declare type SatisfiesProps<T> = {
-    predicate: (arg: T) => unknown;
-    condition?: T;
-    children?: React.ReactNode;
+export const Case = ({
+  value,
+  condition,
+  children = null,
+}: {
+  value: unknown;
+  condition?: unknown;
+  children?: React.ReactNode;
+}): JSX.Element | null => (value === condition ? <>{children}</> : null);
+
+type SatisfiesProps<T> = {
+  predicate: (arg: T) => unknown;
+  condition?: T;
+  children?: React.ReactNode;
 };
 /**
  * Renders when its the condition supplied by its parent matches its value prop.
@@ -116,6 +153,9 @@ declare type SatisfiesProps<T> = {
  * @param {function(unknown): boolean} props.predicate Predicate function used to check condition
  * @param {*} props.condition Value to be checked
  */
-export declare const Satisfies: ({ predicate, condition, children, }: SatisfiesProps<unknown>) => JSX.Element | null;
-export {};
-//# sourceMappingURL=index.d.ts.map
+export const Satisfies = ({
+  predicate,
+  condition,
+  children = null,
+}: SatisfiesProps<unknown>): JSX.Element | null =>
+  predicate(condition) ? <>{children}</> : null;
