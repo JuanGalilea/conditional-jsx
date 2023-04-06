@@ -171,7 +171,7 @@ describe('Satisfies', () => {
   it('Returns children if condition satisfies statement', () => {
     expect(
       Satisfies({ predicate: (x) => x === 0, condition: 0, children: 'true' })
-    ).toEqual(<>true</>);
+    ).toEqual(<>{'true'}</>);
   });
   it('Returns null if condition does not satisfy statement', () => {
     expect(

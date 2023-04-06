@@ -1,6 +1,6 @@
 {
   "name": "conditional-jsx",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "React components for conditional statements.",
   "repository": {
     "type": "git",
@@ -20,9 +20,7 @@
   "scripts": {
     "test": "vitest run",
     "watch": "vitest watch",
-    "build": "npx tsc -p .",
-    "build-docs": "npx typedoc --out docs src/index.js --disableOutputCheck",
-    "prepublishOnly": "npm run build && npm run build-docs"
+    "build": "npx tsc -p ."
   },
   "lint-staged": {
     "*.ts": [
@@ -53,11 +51,11 @@
     "cheerio": "^1.0.0-rc.12",
     "eslint": "^7.25.0",
     "lint-staged": "^10.5.4",
-    "mocha": "^8.4.0",
+    "mocha": "^10.2.0",
     "prettier": "^2.2.1",
     "react-dom": "^18.2.0",
     "ts-node": "^9.1.1",
-    "typedoc": "^0.20.36",
+    "typedoc": "^0.23.28",
     "typedoc-plugin-markdown": "^3.8.1",
     "typescript": "^4.2.4",
     "vitest": "^0.24.3"

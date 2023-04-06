@@ -1,70 +1,91 @@
 import React, { cloneElement } from 'react';
 
+const isArray = (x: unknown): x is unknown[] => Array.isArray(x);
+
+const processChild = (
+  children:
+    | JSX.Element
+    | string
+    | number
+    | boolean
+    | null
+    | undefined
+    | (JSX.Element | string | number | boolean | null | undefined)[]
+): JSX.Element | null => {
+  if (children === null || children === undefined) return null;
+  switch (typeof children) {
+    case 'string':
+      return <>{children}</>;
+    case 'number':
+      return <>{children}</>;
+    case 'boolean':
+      return null;
+    case 'object':
+      if (Array.isArray(children)) return <>{children.map(processChild)}</>;
+      return children;
+  }
+};
+
 /**
- * Renders when its IfElse parent condition is falsy
+ * Renders when its IfElse parent condition is falsy. Booleans are never rendered.
  * - Synonyms: Unless
  * - See also: If, When, OnTrue
- * @function OnFalse
- * @param {object} props
- * @param {*} props.condition Value to check
  */
 export const OnFalse = ({
   condition,
   children,
 }: {
   condition?: unknown;
-  children: React.ReactNode;
-}): JSX.Element | null => (condition ? null : <>{children}</>);
+  children:
+    | JSX.Element
+    | string
+    | number
+    | boolean
+    | null
+    | undefined
+    | (JSX.Element | string | number | boolean | null | undefined)[];
+}): JSX.Element | null => (condition ? null : processChild(children));
 
 /**
- * Renders when its IfElse parent condition is truthy
+ * Renders when its IfElse parent condition is truthy. Booleans are never rendered.
  * - Synonyms: If, When
  * - See also: Unless, OnFalse
- * @function OnTrue
- * @param {object} props
- * @param {*} props.condition Value to check
  */
 export const OnTrue = ({
   condition,
   children,
 }: {
   condition?: unknown;
-  children: React.ReactNode;
-}): JSX.Element | null => (condition ? <>{children}</> : null);
+  children:
+    | JSX.Element
+    | string
+    | number
+    | boolean
+    | null
+    | undefined
+    | (JSX.Element | string | number | boolean | null | undefined)[];
+}): JSX.Element | null => (condition ? processChild(children) : null);
 
 /**
- * Renders when its condition prop is truthy
+ * Renders when its condition prop is truthy. Booleans are never rendered.
  * - Synonyms: When, OnTrue
  * - See also: Unless, OnFalse
- * @function If
- * @param {object} props
- * @param {*} props.condition Value to check
  */
 export const If = OnTrue;
 
 /**
- * Renders when its condition prop is truthy
+ * Renders when its condition prop is truthy. Booleans are never rendered.
  * - Synonyms: If, OnTrue
  * - See also: Unless, OnFalse
- * @function When
- * @param {object} props
- * @param {*} props.condition Value to check
  */
 export const When = OnTrue;
 
 /**
- * Renders when its condition prop is falsy
+ * Renders when its condition prop is falsy. Booleans are never rendered.
  * - Synonyms: OnFalse
  * - See also: If, When, OnTrue
- * @function Unless
- * @param {object} props
- * @param {*} props.condition Value to check
  */
 export const Unless = OnFalse;
-
-const isObject = (x: unknown) => typeof x === 'object';
-const isNull = (x: unknown) => x === null;
-const isArray = (x: unknown) => Array.isArray(x);
 
 /**
  * Supplies its condition prop to all its children, use with OnTrue and OnFalse.
@@ -73,9 +94,6 @@ const isArray = (x: unknown) => Array.isArray(x);
  * Note:
  * - Supports multiple OnTrue, OnFalse and/or other components as children.
  * - It provides keys as best as it can to its children, but its better if they are provided beforehand.
- * @function IfElse
- * @param {object} props
- * @param {*} props.condition Value to check
  */
 export const IfElse = ({
   condition,
@@ -83,14 +101,19 @@ export const IfElse = ({
 }: {
   condition?: unknown;
   children?:
-    | (Exclude<React.ReactNode, React.ReactFragment> | string)
-    | (Exclude<React.ReactNode, React.ReactFragment> | string)[];
+    | JSX.Element
+    | string
+    | number
+    | boolean
+    | null
+    | undefined
+    | (JSX.Element | string | number | boolean | null | undefined)[];
 }): JSX.Element | null =>
   !(typeof children === 'object') ||
   children === null ||
   typeof children === 'string' ? (
     children ? (
-      <>{children}</>
+      processChild(children)
     ) : null
   ) : (
     <>
@@ -116,19 +139,12 @@ export const IfElse = ({
  * - Supports multiple Case, Satisfies and/or other components as children.
  * - Can also be used as IfElse, but the syntax is sub-optimal.
  * - It provides keys as best as it can to its children, but its better if they are provided beforehand.
- * @function Switch
- * @param {object} props
- * @param {*} props.condition Value to provide to children
  */
 export const Switch = IfElse;
 
 /**
  * Renders when its the condition supplied by its parent matches its value prop.
  * - See also: Satisfies, Switch
- * @function Case
- * @param {object} props
- * @param {*} props.value Value to check condition against
- * @param {*} props.condition Value to be checked
  */
 export const Case = ({
   value,
@@ -137,25 +153,35 @@ export const Case = ({
 }: {
   value: unknown;
   condition?: unknown;
-  children?: React.ReactNode;
-}): JSX.Element | null => (value === condition ? <>{children}</> : null);
+  children?:
+    | JSX.Element
+    | string
+    | number
+    | boolean
+    | null
+    | undefined
+    | (JSX.Element | string | number | boolean | null | undefined)[];
+}): JSX.Element | null => (value === condition ? processChild(children) : null);
 
 type SatisfiesProps<T> = {
   predicate: (arg: T) => unknown;
   condition?: T;
-  children?: React.ReactNode;
+  children?:
+    | JSX.Element
+    | string
+    | number
+    | boolean
+    | null
+    | undefined
+    | (JSX.Element | string | number | boolean | null | undefined)[];
 };
 /**
  * Renders when its the condition supplied by its parent matches its value prop.
  * - See also: Case, Switch
- * @function Satisfies
- * @param {object} props
- * @param {function(unknown): boolean} props.predicate Predicate function used to check condition
- * @param {*} props.condition Value to be checked
  */
 export const Satisfies = ({
   predicate,
   condition,
   children = null,
 }: SatisfiesProps<unknown>): JSX.Element | null =>
-  predicate(condition) ? <>{children}</> : null;
+  predicate(condition) ? processChild(children) : null;
