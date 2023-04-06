@@ -163,8 +163,12 @@ export const Case = ({
     | (JSX.Element | string | number | boolean | null | undefined)[];
 }): JSX.Element | null => (value === condition ? processChild(children) : null);
 
-type SatisfiesProps<T> = {
-  predicate: (arg: T) => unknown;
+/**
+ * Renders when its the condition supplied by its parent matches its value prop.
+ * - See also: Case, Switch
+ */
+export const Satisfies: <T>(props: {
+  predicate: (arg?: T) => unknown;
   condition?: T;
   children?:
     | JSX.Element
@@ -174,14 +178,5 @@ type SatisfiesProps<T> = {
     | null
     | undefined
     | (JSX.Element | string | number | boolean | null | undefined)[];
-};
-/**
- * Renders when its the condition supplied by its parent matches its value prop.
- * - See also: Case, Switch
- */
-export const Satisfies = ({
-  predicate,
-  condition,
-  children = null,
-}: SatisfiesProps<unknown>): JSX.Element | null =>
+}) => JSX.Element | null = ({ predicate, condition, children = null }) =>
   predicate(condition) ? processChild(children) : null;

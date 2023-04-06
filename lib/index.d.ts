@@ -78,15 +78,13 @@ export declare const Case: ({ value, condition, children, }: {
     condition?: unknown;
     children?: JSX.Element | string | number | boolean | null | undefined | (JSX.Element | string | number | boolean | null | undefined)[];
 }) => JSX.Element | null;
-type SatisfiesProps<T> = {
-    predicate: (arg: T) => unknown;
-    condition?: T;
-    children?: JSX.Element | string | number | boolean | null | undefined | (JSX.Element | string | number | boolean | null | undefined)[];
-};
 /**
  * Renders when its the condition supplied by its parent matches its value prop.
  * - See also: Case, Switch
  */
-export declare const Satisfies: ({ predicate, condition, children, }: SatisfiesProps<unknown>) => JSX.Element | null;
-export {};
+export declare const Satisfies: <T>(props: {
+    predicate: (arg?: T) => unknown;
+    condition?: T;
+    children?: JSX.Element | string | number | boolean | null | undefined | (JSX.Element | string | number | boolean | null | undefined)[];
+}) => JSX.Element | null;
 //# sourceMappingURL=index.d.ts.map
